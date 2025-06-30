@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AutoScrollableRecyclerView">
+        <attr name="progressLayoutWidth" format="enum|dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="progressLayoutHeight" format="enum|dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="progressLayoutGravity" format="flags|integer">
+            <flag name="top" value="0x30" />
+            <flag name="bottom" value="0x50" />
+            <flag name="left" value="0x03" />
+            <flag name="right" value="0x05" />
+            <flag name="center_vertical" value="0x10" />
+            <flag name="fill_vertical" value="0x70" />
+            <flag name="center_horizontal" value="0x01" />
+            <flag name="fill_horizontal" value="0x07" />
+            <flag name="center" value="0x11" />
+            <flag name="fill" value="0x77" />
+            <flag name="clip_vertical" value="0x80" />
+            <flag name="clip_horizontal" value="0x08" />
+            <flag name="start" value="0x00800003" />
+            <flag name="end" value="0x00800005" />
+        </attr>
+
+        <attr name="displayingDuration" format="integer" />
+        <attr name="isAutoScrollable" format="boolean" />
+        <attr name="progressSpacing" format="dimension" />
+        <attr name="progressMinValue" format="integer" />
+        <attr name="progressMaxValue" format="integer" />
+        <attr name="progressBackgroundColor" format="color" />
+        <attr name="progressColor" format="color" />
+        <attr name="progressCornerRadius" format="dimension" />
+        <attr name="progressAlpha" format="float" />
+
+        <attr name="progressLayoutMarginTop" format="dimension" />
+        <attr name="progressLayoutMarginBottom" format="dimension" />
+        <attr name="progressLayoutMarginStart" format="dimension" />
+        <attr name="progressLayoutMarginEnd" format="dimension" />
+    </declare-styleable>
+</resources>
