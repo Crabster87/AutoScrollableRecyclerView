@@ -4,3 +4,12 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.android.library) apply false
 }
+
+//Fixing "./gradlew jreleaserFullRelease" build issue
+buildscript {
+    configurations.all {
+        resolutionStrategy {
+            force("org.apache.commons:commons-compress:1.27.1")
+        }
+    }
+}

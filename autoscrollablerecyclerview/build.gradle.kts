@@ -1,7 +1,10 @@
+import org.jreleaser.model.Active
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     id("maven-publish")
+    id("org.jreleaser") version "1.19.0"
 }
 
 android {
@@ -88,6 +91,44 @@ publishing {
     repositories {
         maven {
             setUrl(layout.buildDirectory.dir("staging-deploy"))
+        }
+    }
+}
+
+jreleaser {
+    project {
+        inceptionYear = "2025"
+        author("Crabster87")
+    }
+    gitRootSearch = true
+    signing {
+        active = Active.ALWAYS
+        armored = true
+        verify = true
+    }
+    release {
+        github {
+            skipTag = true
+            sign = true
+            branch = "master"
+            branchPush = "master"
+            overwrite = true
+        }
+    }
+    deploy {
+        maven {
+            mavenCentral.create("sonatype") {
+                active = Active.ALWAYS
+                url = "https://central.sonatype.com/api/v1/publisher"
+                stagingRepository(layout.buildDirectory.dir("staging-deploy").get().toString())
+                setAuthorization("Basic")
+                applyMavenCentralRules = false // Wait for fix: https://github.com/kordamp/pomchecker/issues/21
+                sign = true
+                checksums = true
+                sourceJar = true
+                javadocJar = true
+                retryDelay = 60
+            }
         }
     }
 }
