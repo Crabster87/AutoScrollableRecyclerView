@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="AutoScrollableRecyclerView">
+
+        <attr name="displayingDuration" format="integer" />
+        <attr name="isAutoScrollable" format="boolean" />
+        <attr name="recyclerViewOrientation" format="enum|integer">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+
         <attr name="progressLayoutWidth" format="enum|dimension">
             <enum name="match_parent" value="-1" />
             <enum name="wrap_content" value="-2" />
@@ -26,8 +34,6 @@
             <flag name="end" value="0x00800005" />
         </attr>
 
-        <attr name="displayingDuration" format="integer" />
-        <attr name="isAutoScrollable" format="boolean" />
         <attr name="progressSpacing" format="dimension" />
         <attr name="progressMinValue" format="integer" />
         <attr name="progressMaxValue" format="integer" />

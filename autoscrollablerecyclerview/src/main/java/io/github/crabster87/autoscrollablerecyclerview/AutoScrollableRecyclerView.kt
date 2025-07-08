@@ -4,11 +4,11 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.Gravity
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.content.withStyledAttributes
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import io.github.crabster87.autoscrollablerecyclerview.ViewHelper.visibility
@@ -26,6 +26,7 @@ class AutoScrollableRecyclerView @JvmOverloads constructor(
     private var jobScroll: Job? = null
     private var displayingDuration: Int = 0
     private var isAutoScrollable: Boolean = true
+    private var recyclerViewOrientation: Int = 0
 
     private var progressLayoutWidth: Int = 0
     private var progressLayoutHeight: Int = 0
@@ -53,6 +54,7 @@ class AutoScrollableRecyclerView @JvmOverloads constructor(
     init {
         inflate(context, R.layout.autoscrollable_rv_layout, this)
         loadAttributes(attrs)
+        applyRecyclerViewOrientation()
         applyProgressBarLayoutParams()
     }
 
@@ -78,11 +80,11 @@ class AutoScrollableRecyclerView @JvmOverloads constructor(
         ) {
             progressLayoutWidth = getLayoutDimension(
                 R.styleable.AutoScrollableRecyclerView_progressLayoutWidth,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                LayoutParams.WRAP_CONTENT
             )
             progressLayoutHeight = getLayoutDimension(
                 R.styleable.AutoScrollableRecyclerView_progressLayoutHeight,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                LayoutParams.WRAP_CONTENT
             )
             progressLayoutGravity = getInteger(
                 R.styleable.AutoScrollableRecyclerView_progressLayoutGravity,
@@ -92,6 +94,10 @@ class AutoScrollableRecyclerView @JvmOverloads constructor(
                 getInteger(R.styleable.AutoScrollableRecyclerView_displayingDuration, 0)
             isAutoScrollable =
                 getBoolean(R.styleable.AutoScrollableRecyclerView_isAutoScrollable, true)
+            recyclerViewOrientation = getInteger(
+                R.styleable.AutoScrollableRecyclerView_recyclerViewOrientation,
+                LinearLayoutManager.HORIZONTAL
+            )
             progressSpacing =
                 getDimensionPixelSize(R.styleable.AutoScrollableRecyclerView_progressSpacing, 0)
             progressMinValue =
@@ -135,11 +141,11 @@ class AutoScrollableRecyclerView @JvmOverloads constructor(
     fun <T : Any, VH : RecyclerView.ViewHolder> submitData(
         adapter: ListAdapter<T, VH>?,
         list: List<T>,
-        onCommitted: () -> Unit,
+        viewLifecycleOwner: LifecycleOwner,
     ) {
         adapter?.let {
             if (isAutoScrollable) {
-                it.submitList(list) { onCommitted() }
+                it.submitList(list) { launchAutoScrolling(viewLifecycleOwner) }
             } else {
                 it.submitList(list)
             }
@@ -198,6 +204,10 @@ class AutoScrollableRecyclerView @JvmOverloads constructor(
                 setSegmentsQuantity(newCount)
             }
         }
+    }
+
+    private fun applyRecyclerViewOrientation() {
+        recyclerView.layoutManager = LinearLayoutManager(context, recyclerViewOrientation, false)
     }
 
     private fun applyProgressBarLayoutParams() {

@@ -7,7 +7,6 @@ import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.util.AttributeSet
 import android.view.Gravity
-import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -66,7 +65,7 @@ class SegmentedLinearProgressBar @JvmOverloads constructor(
     }
 
     private fun createSegmentLayoutParamsWithMargins(i: Int): LayoutParams {
-        val layoutPms = LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        val layoutPms = LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f)
         if (i < segmentCount - 1) {
             layoutPms.setMargins(0, 0, progressSpacing, 0)
         }
